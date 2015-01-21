@@ -46,6 +46,8 @@ print size4
 xdim = range(0,size3)
 ydim = range(0,size2)
 
+X, Y = numpy.meshgrid(xdim,ydim)
+
 fig = plt.figure(figsize=(14,6))
 
 # `ax` is a 3D-aware axis instance because of the projection='3d' keyword argument to add_subplot
@@ -55,9 +57,17 @@ fig = plt.figure(figsize=(14,6))
 
 # surface_plot with color grading and color bar
 ax = fig.add_subplot(1, 1, 1, projection='3d')
-p = ax.plot_surface(xdim, ydim, numarray, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, antialiased=False)
+p = ax.plot_surface(X, Y, numpy.transpose(numarray), rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, antialiased=False)
 cb = fig.colorbar(p, shrink=0.5)
-      
+ylabel('Width of Cell',**font)
+plt.ylim([0,150])
+#plt.xlim([0,10])
+xlabel('Length of Cell',**font)
+zlabel('EQE',**font)
+title(parameters[12]+parameters[9]+'Resistance', **title_font)
+plt.legend(['Measured', 'Linear '+'y='+'%.5f' % regression[0]+'x+'+'%.5f' % regression[1]], loc='upper left')
+savefig(filenamelocation.split('_resistance_')[0]+parameters[9]+'.png')
+plt.show()      
 #print numarray.shape
 #
 #for i in range(len(timearray)):
